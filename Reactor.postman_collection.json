@@ -1,0 +1,921 @@
+{
+	"info": {
+		"_postman_id": "3e9ad5a2-1793-40d4-8188-5f8d7e42c0cd",
+		"name": "Reactor",
+		"description": "APIs for interacting with the Reactor Platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Property",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c3479f3-eded-4a35-af8f-9f22b20bbb01",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"console.log(responseBody);",
+							"postman.setEnvironmentVariable(\"PROPERTY_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6aabb957-f250-482a-9a8c-4cf8dcae6793",
+						"exec": [
+							"var current = postman.getEnvironmentVariable(\"PROPERTY_COUNT\");",
+							"if(current === undefined){",
+							"  current = '0';",
+							"}",
+							"var count = parseInt(current) + 1;",
+							"postman.setEnvironmentVariable(\"PROPERTY_NAME\", \"Template Property - \" + count);",
+							"postman.setEnvironmentVariable(\"PROPERTY_COUNT\", count);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"domains\": [\"google.com\"],\n            \"name\": \"{{PROPERTY_NAME}}\", \n            \"undefined_vars_return_empty\": true,\n            \"platform\": \"web\"\n        }, \n        \"type\": \"properties\"\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/companies/{{COMPANY_ID}}/properties",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"companies",
+						"{{COMPANY_ID}}",
+						"properties"
+					]
+				},
+				"description": "Generated from a curl request: \ncurl -s -k -v -X GET https://mc-api-activation-dtm-alpha.adobe.io -H \\\"Accept: application/vnd.api+json;revision=1\\\" -H \\\"Content-Type: application/json\\\" -H \\\"X-Api-Key: Activation-DTM\\\" -H \\\"X-Api-Data-Case: camel-lower\\\" -H \\\"Authorization: bearer $ACCESS_TOKEN\\\"\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Available Extension Packages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c0fd2409-73f0-4909-b6cf-ef246fa96521",
+						"exec": [
+							"function dtm_package(data) {",
+							"  return data.attributes.name === 'core'",
+							"}",
+							"function aa_package(data) {",
+							"  return data.attributes.name === 'adobe-analytics'",
+							"}",
+							"function facebook_package(data) {",
+							"  return data.attributes.name === 'facebook-pixel'",
+							"}",
+							"",
+							"var res = JSON.parse(responseBody);",
+							"dtm = res.data.find(dtm_package);",
+							"aa = res.data.find(aa_package);",
+							"fb = res.data.find(facebook_package);",
+							"",
+							"postman.setEnvironmentVariable(\"DTM_EXT_PACKAGE_ID\", dtm.id);",
+							"postman.setEnvironmentVariable(\"AA_EXT_PACKAGE_ID\", aa.id);",
+							"postman.setEnvironmentVariable(\"FB_EXT_PACKAGE_ID\", fb.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{HOST}}/extension_packages?page[size]=999&sort=display_name&filter[platform]=EQ%20web,EQ%20null&max_availability=private",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"extension_packages"
+					],
+					"query": [
+						{
+							"key": "page[size]",
+							"value": "999"
+						},
+						{
+							"key": "sort",
+							"value": "display_name"
+						},
+						{
+							"key": "filter[platform]",
+							"value": "EQ%20web,EQ%20null"
+						},
+						{
+							"key": "max_availability",
+							"value": "private"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get DTM Extension",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"function dtm_extension(data) {",
+							"  return data.relationships.extension_package.data.id === postman.getEnvironmentVariable('DTM_EXT_PACKAGE_ID');",
+							"}",
+							"",
+							"var res = JSON.parse(responseBody);",
+							"dtm = res.data.find(dtm_extension);",
+							"postman.setEnvironmentVariable(\"DTM_EXTENSION_ID\", dtm.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/extensions",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"extensions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Install Adobe Analytics Extension",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "90fd582c-361c-4142-8ab1-35deb83333ea",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"AA_EXTENSION_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"delegate_descriptor_id\": \"adobe-analytics::extensionConfiguration::config\",\n            \"settings\": \"{\\\"libraryCode\\\":{\\\"type\\\":\\\"managed\\\",\\\"accounts\\\":{\\\"production\\\":[\\\"dev\\\"],\\\"staging\\\":[\\\"dev\\\"],\\\"development\\\":[\\\"dev\\\"]}},\\\"trackerProperties\\\":{\\\"eVars\\\":[{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar4\\\",\\\"value\\\":\\\"%shopping_cart%\\\"}],\\\"trackInlineStats\\\":true,\\\"trackDownloadLinks\\\":true,\\\"trackExternalLinks\\\":true,\\\"linkDownloadFileTypes\\\":[\\\"doc\\\",\\\"docx\\\",\\\"eps\\\",\\\"jpg\\\",\\\"png\\\",\\\"svg\\\",\\\"xls\\\",\\\"ppt\\\",\\\"pptx\\\",\\\"pdf\\\",\\\"xlsx\\\",\\\"tab\\\",\\\"csv\\\",\\\"zip\\\",\\\"txt\\\",\\\"vsd\\\",\\\"vxd\\\",\\\"xml\\\",\\\"js\\\",\\\"css\\\",\\\"rar\\\",\\\"exe\\\",\\\"wma\\\",\\\"mov\\\",\\\"avi\\\",\\\"wmv\\\",\\\"mp3\\\",\\\"wav\\\",\\\"m4v\\\"]}}\"\n        }, \n        \"type\": \"extensions\",\n        \"relationships\": {\n        \t\"extension_package\": {\n        \t\t\"data\": {\n        \t\t\t\"id\": \"{{AA_EXT_PACKAGE_ID}}\",\n        \t\t\t\"type\": \"extension_packages\"\n        \t\t}\n        \t}\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/extensions",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"extensions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create shopping_cart data element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "955ac18a-d0b5-43ba-838d-7a66c1b08fbb",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"SHOPPING_CART_DE_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"clean_text\": false,\n          \"force_lowercase\": false,\n          \"enabled\": true,\n            \"name\": \"shopping_cart\",\n            \"default_value\": \"0\",\n            \"storage_duration\": \"session\",\n            \"settings\": \"{\\\"path\\\":\\\"data_layer.shopping_cart\\\"}\",\n            \"delegate_descriptor_id\": \"core::dataElements::javascript-variable\"\n        }, \n        \"type\": \"data_elements\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/data_elements",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"data_elements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create product_id data element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be29fab7-52a3-4a03-81f0-29aaa9dc282a",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"PRODUCT_ID_DE_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n\t\t\t\"clean_text\": false,\n\t\t\t\"force_lowercase\": false,\n\t\t\t\"enabled\": true,\n\t\t\t\"name\": \"product_id\",\n\t\t\t\"default_value\": \"\",\n\t\t\t\"storage_duration\": \"pageview\",\n\t\t\t\"settings\": \"{\\\"elementSelector\\\":\\\"div#product\\\",\\\"elementProperty\\\":\\\"id\\\"}\",\n\t\t\t\"delegate_descriptor_id\": \"core::dataElements::dom-attribute\"\n        }, \n        \"type\": \"data_elements\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n\t}\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/data_elements",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"data_elements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Click Event Rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"CLICK_EVENT_RULE_ID\", res.data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"Click Event Rule\"\n        }, \n        \"type\": \"rules\"\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/rules",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"rules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Click Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"click-event\",\n            \"settings\": \"{\\\"elementSelector\\\":\\\"a#checkout\\\",\\\"bubbleFireIfParent\\\":true,\\\"bubbleFireIfChildFired\\\":true}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"core::events::click\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"rules",
+						"{{CLICK_EVENT_RULE_ID}}",
+						"rule_components"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Browser Condition",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"browser-condition\",\n            \"settings\": \"{\\\"browsers\\\":[\\\"Chrome\\\"]}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"core::conditions::browser\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"rules",
+						"{{CLICK_EVENT_RULE_ID}}",
+						"rule_components"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Adobe Analytics Send Beacon",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"analytics-action\",\n            \"settings\": \"{\\\"trackerProperties\\\":{\\\"eVars\\\":[{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar2\\\",\\\"value\\\":\\\"%shopping_cart%\\\"},{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar3\\\",\\\"value\\\":\\\"%product_id%\\\"}],\\\"props\\\":[{\\\"type\\\":\\\"value\\\",\\\"value\\\":\\\"purchase\\\",\\\"name\\\":\\\"prop2\\\"}]}}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"adobe-analytics::actions::set-variables\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{AA_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"rules",
+						"{{CLICK_EVENT_RULE_ID}}",
+						"rule_components"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Install Facebook Extension",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2265e41-9e30-44f6-9a2c-c634b3ed1323",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"FB_EXTENSION_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"delegate_descriptor_id\": \"facebook-pixel::extensionConfiguration::config\",\n            \"settings\": \"{\\\"pixelId\\\": \\\"123456789\\\"}\"\n        }, \n        \"type\": \"extensions\",\n\t\t\"relationships\": {\n\t\t\t\"extension_package\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{FB_EXT_PACKAGE_ID}}\",\n\t\t\t\t\t\"type\": \"extension_packages\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/extensions",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"extensions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Facebook Send Add to Cart Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"facebook-event\",\n            \"settings\": \"{\\\"value\\\":\\\"%shopping_cart%\\\",\\\"currency\\\":\\\"USD\\\"}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"facebook-pixel::actions::send-add-to-cart-event\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{FB_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"rules",
+						"{{CLICK_EVENT_RULE_ID}}",
+						"rule_components"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Adapter Akamai",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b5c4a3f-6fa2-470a-aa75-19d25d104bf4",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"ADAPTER_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"Akamai\",\n          \"type_of\": \"akamai\"\n        }, \n        \"type\": \"adapters\"\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/adapters/",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"adapters",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Environment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d3695702-c58a-4465-bd53-0459a3432f3d",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"ENVIRONMENT_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"Development\",\n            \"stage\": \"development\",\n            \"archive\": false,\n            \"path\": \"\"\n        },\n        \"relationships\": {\n          \"adapter\": {\n            \"data\": {\n              \"id\": \"{{ADAPTER_ID}}\",\n              \"type\": \"adapters\"\n            }\n          }\n        },\n        \"type\": \"environments\"\n    }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/environments",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"environments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Library",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7673f68-4c96-43a0-8515-21ea39ee635b",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"LIBRARY_ID\", res.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"Initial Deploy\"\n        },\n        \"type\": \"libraries\",\n      \"relationships\": {\n        \"environment\": {\n          \"data\": { \n            \"type\": \"environments\", \n            \"id\": \"{{ENVIRONMENT_ID}}\" \n          }\n        },\n        \"resources\": {\n          \"data\": [\n            { \"type\": \"data_elements\", \"id\": \"{{SHOPPING_CART_DE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"data_elements\", \"id\": \"{{PRODUCT_ID_DE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"rules\", \"id\": \"{{CLICK_EVENT_RULE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{DTM_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{AA_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{FB_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}}\n          ]\n        }\n      }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/libraries",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"properties",
+						"{{PROPERTY_ID}}",
+						"libraries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Build to Library",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"BUILD_ID\", res.data.id);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{HOST}}/libraries/{{LIBRARY_ID}}/builds",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"libraries",
+						"{{LIBRARY_ID}}",
+						"builds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Build Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.api+json;revision=1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-Api-Key",
+						"value": "Activation-DTM"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{HOST}}/builds/{{BUILD_ID}}",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"builds",
+						"{{BUILD_ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "fdea3868-8f9b-4c6f-ba59-152888922845",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7fd22399-58b8-403d-8359-4d553868cdcf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
