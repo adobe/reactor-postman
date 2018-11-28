@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "3e9ad5a2-1793-40d4-8188-5f8d7e42c0cd",
-		"name": "Reactor",
-		"description": "APIs for interacting with the Reactor Platform",
+		"_postman_id": "1c67531e-eb43-45fd-ae60-be25bd71dc86",
+		"name": "Reactor Provision",
+		"description": "APIs for interacting with the Reactor Platform.\nPermform a simplified provision from property create to publish",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -31,7 +31,7 @@
 							"  current = '0';",
 							"}",
 							"var count = parseInt(current) + 1;",
-							"postman.setEnvironmentVariable(\"PROPERTY_NAME\", \"Template Property - \" + count);",
+							"postman.setEnvironmentVariable(\"PROPERTY_NAME\", \"Super Awesome Property - \" + count);",
 							"postman.setEnvironmentVariable(\"PROPERTY_COUNT\", count);"
 						],
 						"type": "text/javascript"
@@ -256,7 +256,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"delegate_descriptor_id\": \"adobe-analytics::extensionConfiguration::config\",\n            \"settings\": \"{\\\"libraryCode\\\":{\\\"type\\\":\\\"managed\\\",\\\"accounts\\\":{\\\"production\\\":[\\\"dev\\\"],\\\"staging\\\":[\\\"dev\\\"],\\\"development\\\":[\\\"dev\\\"]}},\\\"trackerProperties\\\":{\\\"eVars\\\":[{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar4\\\",\\\"value\\\":\\\"%shopping_cart%\\\"}],\\\"trackInlineStats\\\":true,\\\"trackDownloadLinks\\\":true,\\\"trackExternalLinks\\\":true,\\\"linkDownloadFileTypes\\\":[\\\"doc\\\",\\\"docx\\\",\\\"eps\\\",\\\"jpg\\\",\\\"png\\\",\\\"svg\\\",\\\"xls\\\",\\\"ppt\\\",\\\"pptx\\\",\\\"pdf\\\",\\\"xlsx\\\",\\\"tab\\\",\\\"csv\\\",\\\"zip\\\",\\\"txt\\\",\\\"vsd\\\",\\\"vxd\\\",\\\"xml\\\",\\\"js\\\",\\\"css\\\",\\\"rar\\\",\\\"exe\\\",\\\"wma\\\",\\\"mov\\\",\\\"avi\\\",\\\"wmv\\\",\\\"mp3\\\",\\\"wav\\\",\\\"m4v\\\"]}}\"\n        }, \n        \"type\": \"extensions\",\n        \"relationships\": {\n        \t\"extension_package\": {\n        \t\t\"data\": {\n        \t\t\t\"id\": \"{{AA_EXT_PACKAGE_ID}}\",\n        \t\t\t\"type\": \"extension_packages\"\n        \t\t}\n        \t}\n        }\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"delegate_descriptor_id\": \"adobe-analytics::extensionConfiguration::config\",\n            \"settings\": \"{\\\"libraryCode\\\":{\\\"type\\\":\\\"managed\\\",\\\"accounts\\\":{\\\"production\\\":[\\\"prod-a-licious\\\"],\\\"staging\\\":[\\\"stag-issimo\\\"],\\\"development\\\":[\\\"dev-tastic\\\"]}},\\\"trackerProperties\\\":{\\\"eVars\\\":[{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar4\\\",\\\"value\\\":\\\"%shopping_cart%\\\"}],\\\"trackInlineStats\\\":true,\\\"trackDownloadLinks\\\":true,\\\"trackExternalLinks\\\":true,\\\"linkDownloadFileTypes\\\":[\\\"doc\\\",\\\"docx\\\",\\\"eps\\\",\\\"jpg\\\",\\\"png\\\",\\\"svg\\\",\\\"xls\\\",\\\"ppt\\\",\\\"pptx\\\",\\\"pdf\\\",\\\"xlsx\\\",\\\"tab\\\",\\\"csv\\\",\\\"zip\\\",\\\"txt\\\",\\\"vsd\\\",\\\"vxd\\\",\\\"xml\\\",\\\"js\\\",\\\"css\\\",\\\"rar\\\",\\\"exe\\\",\\\"wma\\\",\\\"mov\\\",\\\"avi\\\",\\\"wmv\\\",\\\"mp3\\\",\\\"wav\\\",\\\"m4v\\\"]}}\"\n        }, \n        \"type\": \"extensions\",\n        \"relationships\": {\n        \t\"extension_package\": {\n        \t\t\"data\": {\n        \t\t\t\"id\": \"{{AA_EXT_PACKAGE_ID}}\",\n        \t\t\t\"type\": \"extension_packages\"\n        \t\t}\n        \t}\n        }\n    }\n}"
 				},
 				"url": {
 					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/extensions",
@@ -309,7 +309,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"clean_text\": false,\n          \"force_lowercase\": false,\n          \"enabled\": true,\n            \"name\": \"shopping_cart\",\n            \"default_value\": \"0\",\n            \"storage_duration\": \"session\",\n            \"settings\": \"{\\\"path\\\":\\\"data_layer.shopping_cart\\\"}\",\n            \"delegate_descriptor_id\": \"core::dataElements::javascript-variable\"\n        }, \n        \"type\": \"data_elements\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n\t}\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"clean_text\": false,\n          \"force_lowercase\": false,\n          \"enabled\": true,\n            \"name\": \"shopping_cart\",\n            \"default_value\": \"0\",\n            \"storage_duration\": \"session\",\n            \"settings\": \"{\\\"path\\\":\\\"data_layer.zomg.shopping_cart\\\"}\",\n            \"delegate_descriptor_id\": \"core::dataElements::javascript-variable\"\n        }, \n        \"type\": \"data_elements\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n\t}\n}"
 				},
 				"url": {
 					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/data_elements",
@@ -494,7 +494,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"browser-condition\",\n            \"settings\": \"{\\\"browsers\\\":[\\\"Chrome\\\"]}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"core::conditions::browser\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n        \t\"name\": \"browser-condition\",\n        \t\"settings\": \"{\\\"browsers\\\":[\\\"Chrome\\\"]}\",\n        \t\"order\": 0,\n        \t\"delegate_descriptor_id\": \"core::conditions::browser\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
 				},
 				"url": {
 					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
@@ -680,7 +680,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"Akamai\",\n          \"type_of\": \"akamai\"\n        }, \n        \"type\": \"adapters\"\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"Cloudy Cloud\",\n          \"type_of\": \"akamai\"\n        }, \n        \"type\": \"adapters\"\n    }\n}"
 				},
 				"url": {
 					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/adapters/",
@@ -734,7 +734,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"Development\",\n            \"stage\": \"development\",\n            \"archive\": false,\n            \"path\": \"\"\n        },\n        \"relationships\": {\n          \"adapter\": {\n            \"data\": {\n              \"id\": \"{{ADAPTER_ID}}\",\n              \"type\": \"adapters\"\n            }\n          }\n        },\n        \"type\": \"environments\"\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"My Precious\",\n            \"stage\": \"development\",\n            \"archive\": false,\n            \"path\": \"\"\n        },\n        \"relationships\": {\n          \"adapter\": {\n            \"data\": {\n              \"id\": \"{{ADAPTER_ID}}\",\n              \"type\": \"adapters\"\n            }\n          }\n        },\n        \"type\": \"environments\"\n    }\n}"
 				},
 				"url": {
 					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/environments",
@@ -787,7 +787,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"Initial Deploy\"\n        },\n        \"type\": \"libraries\",\n      \"relationships\": {\n        \"environment\": {\n          \"data\": { \n            \"type\": \"environments\", \n            \"id\": \"{{ENVIRONMENT_ID}}\" \n          }\n        },\n        \"resources\": {\n          \"data\": [\n            { \"type\": \"data_elements\", \"id\": \"{{SHOPPING_CART_DE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"data_elements\", \"id\": \"{{PRODUCT_ID_DE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"rules\", \"id\": \"{{CLICK_EVENT_RULE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{DTM_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{AA_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{FB_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}}\n          ]\n        }\n      }\n  }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"Initial Bibliotheca\"\n        },\n        \"type\": \"libraries\",\n      \"relationships\": {\n        \"environment\": {\n          \"data\": { \n            \"type\": \"environments\", \n            \"id\": \"{{ENVIRONMENT_ID}}\" \n          }\n        },\n        \"resources\": {\n          \"data\": [\n            { \"type\": \"data_elements\", \"id\": \"{{SHOPPING_CART_DE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"data_elements\", \"id\": \"{{PRODUCT_ID_DE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"rules\", \"id\": \"{{CLICK_EVENT_RULE_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{DTM_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{AA_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}},\n            { \"type\": \"extensions\", \"id\": \"{{FB_EXTENSION_ID}}\",\"meta\":{\"action\":\"revise\"}}\n          ]\n        }\n      }\n  }\n}"
 				},
 				"url": {
 					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/libraries",
