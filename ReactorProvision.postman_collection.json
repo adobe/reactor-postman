@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1c67531e-eb43-45fd-ae60-be25bd71dc86",
+		"_postman_id": "79846e18-2082-4185-b4bb-89604857cdb8",
 		"name": "Reactor Provision",
 		"description": "APIs for interacting with the Reactor Platform.\nPermform a simplified provision from property create to publish",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -454,16 +454,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"click-event\",\n            \"settings\": \"{\\\"elementSelector\\\":\\\"a#checkout\\\",\\\"bubbleFireIfParent\\\":true,\\\"bubbleFireIfChildFired\\\":true}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"core::events::click\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n        \t\"name\": \"click-event\",\n            \"settings\": \"{\\\"elementSelector\\\":\\\"a#checkout\\\",\\\"bubbleFireIfParent\\\":true,\\\"bubbleFireIfChildFired\\\":true}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"core::events::click\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"rules\": {\n\t\t        \"data\": [{\n\t\t\t\t\t\"id\": \"{{CLICK_EVENT_RULE_ID}}\",\n\t\t\t\t\t\"type\": \"rules\"\n\t\t        }]\n\t\t\t}\n\t    }\n    }\n}"
 				},
 				"url": {
-					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/rule_components",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"rules",
-						"{{CLICK_EVENT_RULE_ID}}",
+						"properties",
+						"{{PROPERTY_ID}}",
 						"rule_components"
 					]
 				}
@@ -494,16 +494,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n        \t\"name\": \"browser-condition\",\n        \t\"settings\": \"{\\\"browsers\\\":[\\\"Chrome\\\"]}\",\n        \t\"order\": 0,\n        \t\"delegate_descriptor_id\": \"core::conditions::browser\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n        \t\"name\": \"browser-condition\",\n        \t\"settings\": \"{\\\"browsers\\\":[\\\"Chrome\\\"]}\",\n        \t\"order\": 0,\n        \t\"delegate_descriptor_id\": \"core::conditions::browser\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{DTM_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"rules\": {\n\t\t        \"data\": [{\n\t\t\t\t\t\"id\": \"{{CLICK_EVENT_RULE_ID}}\",\n\t\t\t\t\t\"type\": \"rules\"\n\t\t        }]\n\t\t\t}\n\t    }\n    }\n}"
 				},
 				"url": {
-					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/rule_components",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"rules",
-						"{{CLICK_EVENT_RULE_ID}}",
+						"properties",
+						"{{PROPERTY_ID}}",
 						"rule_components"
 					]
 				}
@@ -534,16 +534,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"analytics-action\",\n            \"settings\": \"{\\\"trackerProperties\\\":{\\\"eVars\\\":[{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar2\\\",\\\"value\\\":\\\"%shopping_cart%\\\"},{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar3\\\",\\\"value\\\":\\\"%product_id%\\\"}],\\\"props\\\":[{\\\"type\\\":\\\"value\\\",\\\"value\\\":\\\"purchase\\\",\\\"name\\\":\\\"prop2\\\"}]}}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"adobe-analytics::actions::set-variables\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{AA_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"analytics-action\",\n            \"settings\": \"{\\\"trackerProperties\\\":{\\\"eVars\\\":[{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar2\\\",\\\"value\\\":\\\"%shopping_cart%\\\"},{\\\"type\\\":\\\"value\\\",\\\"name\\\":\\\"eVar3\\\",\\\"value\\\":\\\"%product_id%\\\"}],\\\"props\\\":[{\\\"type\\\":\\\"value\\\",\\\"value\\\":\\\"purchase\\\",\\\"name\\\":\\\"prop2\\\"}]}}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"adobe-analytics::actions::set-variables\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{AA_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"rules\": {\n\t\t        \"data\": [{\n\t\t\t\t\t\"id\": \"{{CLICK_EVENT_RULE_ID}}\",\n\t\t\t\t\t\"type\": \"rules\"\n\t\t        }]\n\t\t\t}\n\t    }\n    }\n}"
 				},
 				"url": {
-					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/rule_components",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"rules",
-						"{{CLICK_EVENT_RULE_ID}}",
+						"properties",
+						"{{PROPERTY_ID}}",
 						"rule_components"
 					]
 				}
@@ -627,16 +627,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"facebook-event\",\n            \"settings\": \"{\\\"value\\\":\\\"%shopping_cart%\\\",\\\"currency\\\":\\\"USD\\\"}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"facebook-pixel::actions::send-add-to-cart-event\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{FB_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t}\n\t    }\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"facebook-event\",\n            \"settings\": \"{\\\"value\\\":\\\"%shopping_cart%\\\",\\\"currency\\\":\\\"USD\\\"}\",\n            \"order\": 0,\n            \"delegate_descriptor_id\": \"facebook-pixel::actions::send-add-to-cart-event\"\n        }, \n        \"type\": \"rule_components\",\n\t\t\"relationships\": {\n\t\t\t\"extension\": {\n\t\t\t\t\"data\": {\n\t\t\t\t\t\"id\": \"{{FB_EXTENSION_ID}}\",\n\t\t\t\t\t\"type\": \"extensions\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"rules\": {\n\t\t        \"data\": [{\n\t\t\t\t\t\"id\": \"{{CLICK_EVENT_RULE_ID}}\",\n\t\t\t\t\t\"type\": \"rules\"\n\t\t        }]\n\t\t\t}\n\t    }\n    }\n}"
 				},
 				"url": {
-					"raw": "{{HOST}}/rules/{{CLICK_EVENT_RULE_ID}}/rule_components",
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/rule_components",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"rules",
-						"{{CLICK_EVENT_RULE_ID}}",
+						"properties",
+						"{{PROPERTY_ID}}",
 						"rule_components"
 					]
 				}
@@ -644,7 +644,7 @@
 			"response": []
 		},
 		{
-			"name": "Add Adapter Akamai",
+			"name": "Add Akamai Host",
 			"event": [
 				{
 					"listen": "test",
@@ -652,7 +652,7 @@
 						"id": "5b5c4a3f-6fa2-470a-aa75-19d25d104bf4",
 						"exec": [
 							"var res = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"ADAPTER_ID\", res.data.id);"
+							"postman.setEnvironmentVariable(\"HOST_ID\", res.data.id);"
 						],
 						"type": "text/javascript"
 					}
@@ -680,17 +680,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"Cloudy Cloud\",\n          \"type_of\": \"akamai\"\n        }, \n        \"type\": \"adapters\"\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n          \"name\": \"Cloudy Cloud\",\n          \"type_of\": \"akamai\"\n        }, \n        \"type\": \"hosts\"\n    }\n}"
 				},
 				"url": {
-					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/adapters/",
+					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/hosts/",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
 						"properties",
 						"{{PROPERTY_ID}}",
-						"adapters",
+						"hosts",
 						""
 					]
 				}
@@ -734,7 +734,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"My Precious\",\n            \"stage\": \"development\",\n            \"archive\": false,\n            \"path\": \"\"\n        },\n        \"relationships\": {\n          \"adapter\": {\n            \"data\": {\n              \"id\": \"{{ADAPTER_ID}}\",\n              \"type\": \"adapters\"\n            }\n          }\n        },\n        \"type\": \"environments\"\n    }\n}"
+					"raw": "{\n    \"data\": {\n        \"attributes\": {\n            \"name\": \"My Precious\",\n            \"stage\": \"development\",\n            \"archive\": false,\n            \"path\": \"\"\n        },\n        \"relationships\": {\n          \"host\": {\n            \"data\": {\n              \"id\": \"{{HOST_ID}}\",\n              \"type\": \"hosts\"\n            }\n          }\n        },\n        \"type\": \"environments\"\n    }\n}"
 				},
 				"url": {
 					"raw": "{{HOST}}/properties/{{PROPERTY_ID}}/environments",
