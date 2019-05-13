@@ -63,6 +63,10 @@ Now you can set that value in your environment
 
 Each request builds on the previous request and demonstrates an end-to-end property creation to publish. Details on the specifications, headers, and attributes can be found for each endpoint in the [Launch Docs](https://developer.adobelaunch.com/). At the completion of each request, various environment variables required for later will be set using the postman `test` and `postman.setEnvironmentVariable`
 
+## Contributing
+
+ Contributions are welcomed! Read the [Contributing Guide](CONTRIBUTING.md) for more information.
+
 ## Licensing
 
 This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.
